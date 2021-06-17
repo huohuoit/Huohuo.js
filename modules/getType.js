@@ -1,5 +1,5 @@
 // 数据类型判断方法
-function getType(obj) {
+export default function getType(obj) {
     const type = typeof obj;
     // 判断是否是基础数据类型
     if (type !== 'object') {
