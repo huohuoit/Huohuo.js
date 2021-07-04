@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONP 的实现</title>
+</head>
+
+<body>
+    <script>
+        function JSONP({ url, params, callbackKey, callback }) {// 在参数⾥制定 callback 的名字 
+            params = params || {};
+            params[callbackKey] = 'jsonpCallback'; // 预留 callback 
+            window.jsonpCallback = callback; // 拼接参数字符串 
+            const paramKeys = Object.keys(params);
+            const paramString = paramKeys.map(key => `${key}=${params[key]}`).join('&');
+            // 插⼊ DOM 元素 
+            const script = document.createElement('script');
+            script.setAttribute('src', `${url}?${paramString}`);
+            document.body.appendChild(script);
+        }
+        JSONP({
+            url: 'https://blog.csdn.net/huohuoit',
+            params: {
+                key: 'test',
+            },
+            callbackKey: '_cb',
+            callback(result) {
+                console.log(result.data)
+            }
+        }); 
+    </script>
+</body>
+
+</html>
